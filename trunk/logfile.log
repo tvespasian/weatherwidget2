@@ -1,0 +1,36 @@
+Debug: 21:26:07 WeatherGraphicsWindow::WeatherGraphicsWindow-> 
+Debug: 21:26:07 WeatherGraphicsWindow::WeatherGraphicsWindow created network engine 
+Warning: 21:26:07 QMetaObject::connectSlotsByName: No matching signal for on_signalmapper_mapped(int)
+Warning: 21:26:07 QMetaObject::connectSlotsByName: No matching signal for on_networkEngine_weatherRequestCompleted(WeatherResponseT,RequestMethodT,bool)
+Debug: 21:26:07 WeatherGraphicsWindow::createWeatherItems()-> 
+Debug: 21:26:07 "192.168.1.2" 
+Debug: 21:26:07 "127.0.0.1" 
+Debug: 21:26:07 "signalmapper" 
+Debug: 21:26:07 WeatherGraphicsWindow::createWeatherItems()<- 
+Debug: 21:26:07 WeatherGraphicsWindow::fetchWeatherData-> 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::getStationCode-> 
+Debug: 21:26:07 post params for getstationcode  "ACode=A5580663883&SearchString=Hyderabad,India" 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::getStationCode<- 
+Debug: 21:26:07 WeatherGraphicsWindow::fetchWeatherData<- 
+Debug: 21:26:07 WeatherGraphicsWindow::WeatherGraphicsWindow<- 
+Debug: 21:26:07 WeatherGraphicsWindow::~WeatherGraphicsWindow-> 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::~WeatherWidgetNetworkEngine-> 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::handleDone-> 
+Debug: 21:26:07 error true 
+Debug: 21:26:07 "" 
+Debug: 21:26:07 WeatherGraphicsWindow::on_networkEngine_weatherRequestCompleted-> 
+Debug: 21:26:07 "" 
+Debug: 21:26:07 "Request aborted" 
+Debug: 21:26:07 -1 
+Debug: 21:26:07 Error:  true 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::handleDone<- 
+Debug: 21:26:07 WeatherWidgetNetworkEngine::~WeatherWidgetNetworkEngine<- 
+Debug: 21:26:07 WeatherGraphicsWindow::~WeatherGraphicsWindow<- 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget-> 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget<- 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget-> 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget<- 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget-> 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget<- 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget-> 
+Debug: 21:26:07 WeatherGraphicsWidget::~WeatherGraphicsWidget<- 

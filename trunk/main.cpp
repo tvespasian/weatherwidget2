@@ -3,7 +3,7 @@
 #include <QApplication>
 
 // Comment this when no debug log is required
-//#define QT_NO_DEBUG_OUTPUT
+#define QT_NO_DEBUG_OUTPUT
 
 #ifndef QT_NO_DEBUG_OUTPUT
 
@@ -15,6 +15,12 @@ void MyOutputHandler(QtMsgType , const char *);
 
 void MyOutputHandler(QtMsgType type, const char *msg) 
 {
+	if(QApplication::instance()->closingDown() || false == logfile.isOpen())
+	{
+		return;
+	}
+	
+	
 	QString logmsg;
 	logmsg += QTime::currentTime().toString() + " " + msg + "\n";
 
@@ -50,18 +56,40 @@ void MyOutputHandler(QtMsgType type, const char *msg)
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
+	QApplication a(argc, argv);
+	
     #ifndef QT_NO_DEBUG_OUTPUT
     // Prepare debug log
-    logfile.setParent(&a);
+	logfile.setParent(&a);
+	
     logfile.setFileName(KLogFileName);
     logfile.open(QIODevice::Append);
     qInstallMsgHandler(MyOutputHandler);
+    
     #endif
 
-    WeatherWidget2 mainwindow;
+// this is for test    
+#define xx
     
+#ifdef xx    
+    WeatherGraphicsWindow* weatherwindow = new WeatherGraphicsWindow(&a);
+    
+    QGraphicsScene scene;
+	scene.addItem(weatherwindow);
+	    
+    QGraphicsView graphicsview;
+    graphicsview.setScene(&scene);
+    graphicsview.setWindowTitle("WeatherWidget 2");
+    graphicsview.setWindowOpacity(0.8);
+    	
+   // graphicsview.setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+
+    graphicsview.show();
+    
+#else if    
+    WeatherWidget2 weatherwidget;
+    weatherwidget.show();
+#endif 
     // start event loop
     return a.exec();
 }

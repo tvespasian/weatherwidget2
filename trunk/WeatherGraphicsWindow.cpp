@@ -27,9 +27,11 @@ const QString KDefaultCityName("Hyderabad");
 const QString KDefaultCountryName("India");
 
 const QFont KCurrentLocationFont("Arial",15);
-const QFont KCurrentTemperatureFont("Arial",20);
+const QFont KCurrentTemperatureFont("Arial",40);
 const QFont KLowHighTemperatureFont("Arial",12);
-const QFont KCurrentConditionFont("Arial",12);
+const QFont KCurrentConditionFont("Arial",15);
+
+
 
 WeatherGraphicsWindow::WeatherGraphicsWindow(QObject* aParent)
 {
@@ -63,6 +65,8 @@ qDebug() << "WeatherGraphicsWindow::~WeatherGraphicsWindow->";
 	{
 		delete iSignalMapper;
 	}
+	
+		
 qDebug() << "WeatherGraphicsWindow::~WeatherGraphicsWindow<-";	
 }
 
@@ -89,14 +93,13 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	qDebug()<<iSignalMapper->objectName();
 	
 	iVerticalViewLayout = new QGraphicsLinearLayout(Qt::Vertical,this);
-	iVerticalViewLayout->setSpacing(qreal(2.0));
-		
+
 	iVerticalCurrentTempContainer = new QGraphicsLinearLayout(Qt::Vertical,iVerticalViewLayout);
-	iHorizontalCurrentTempLayout = new QGraphicsLinearLayout(Qt::Horizontal,iVerticalCurrentTempContainer);
-	
+	iHorizontalCurrentTempLayout = new QGraphicsLinearLayout(Qt::Horizontal,iVerticalViewLayout);
+		
 	// Location
 	iCurrentLocation = new WeatherGraphicsWidget(this);
-	iCurrentLocation->setText("location",KCurrentLocationFont);
+	iCurrentLocation->setText("Hyderabad,India",KCurrentLocationFont);
 	
 	// connect with signal mapper
 	connect(iCurrentLocation, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
@@ -104,42 +107,29 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	iSignalMapper->setMapping(iCurrentLocation,ECurrentLocation);
 	
 	iCurrentTemperature = new WeatherGraphicsWidget(this);
-	iCurrentTemperature->setText("-",KCurrentTemperatureFont);
+	iCurrentTemperature->setText("24.7",KCurrentTemperatureFont);
 	//iCurrentTemperature->setAlignment(Qt::AlignRight);
 	connect(iCurrentTemperature, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
 	iSignalMapper->setMapping(iCurrentTemperature,ECurrentTemperature);
 	
-	iCurrentTemperatureUnits = new WeatherGraphicsWidget(this);
+	/*iCurrentTemperatureUnits = new WeatherGraphicsWidget(this);
 	iCurrentTemperatureUnits->setText("C");
-	//iCurrentTemperatureUnits->setAlignment(Qt::AlignLeft);
+	iCurrentTemperatureUnits->setAlignment(Qt::AlignLeft);
 	connect(iCurrentTemperatureUnits, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
-	iSignalMapper->setMapping(iCurrentTemperatureUnits,ECurrentTemperatureUnits);
+	iSignalMapper->setMapping(iCurrentTemperatureUnits,ECurrentTemperatureUnits);*/
 	
 	iCurrentCondition = new WeatherGraphicsWidget(this);
-	iCurrentCondition->setText("condition",KCurrentConditionFont);
+	iCurrentCondition->setText("this is a test condition",KCurrentConditionFont);
 	connect(iCurrentCondition, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
 	iSignalMapper->setMapping(iCurrentCondition,ECurrentCondition);
-	
+
 	// Add to layouts
-	iVerticalCurrentTempContainer->addItem(iCurrentLocation);
 	
-	iHorizontalCurrentTempLayout->addItem(iCurrentTemperature);
-	iHorizontalCurrentTempLayout->setAlignment(iCurrentTemperature,Qt::AlignRight);
-		
-	iHorizontalCurrentTempLayout->addItem(iCurrentTemperatureUnits);
-	iHorizontalCurrentTempLayout->setAlignment(iCurrentTemperatureUnits,Qt::AlignLeft);
-	
-	iVerticalCurrentTempContainer->addItem(iHorizontalCurrentTempLayout);
-	
-	iVerticalCurrentTempContainer->addItem(iCurrentCondition);
-	iVerticalViewLayout->addItem(iVerticalCurrentTempContainer);
-	
-	//
-	// signalmapper is connected using auto connection
-	//
+	iVerticalViewLayout->addItem(iCurrentLocation);
+	iVerticalViewLayout->addItem(iCurrentTemperature);
+	iVerticalViewLayout->addItem(iCurrentCondition);
 	
 	setLayout(iVerticalViewLayout);
-	
 	
 qDebug() << "WeatherGraphicsWindow::createWeatherItems()<-";	
 }
@@ -218,7 +208,7 @@ qDebug()<<aResponse.iStatusCode;
 		
 		// TODO : display list box for selection of multiple items
 		iCurrentLocationInfo = locationlist[0];
-		iCurrentLocation->setText(iCurrentLocationInfo.iCityName + " " + iCurrentLocationInfo.iCountryName,KCurrentLocationFont);
+		iCurrentLocation->updateText(iCurrentLocationInfo.iCityName + " " + iCurrentLocationInfo.iCountryName);
 		
 		iVerticalViewLayout->updateGeometry();
 		
@@ -235,8 +225,8 @@ qDebug()<<aResponse.iStatusCode;
 		bool stat = WeatherWidgetXMLEngine::getWeatherInfo(aResponse.iResponseBuffer,iCurrentWeatherInfo);
 		qDebug()<<"temp: "<<iCurrentWeatherInfo.iCurrentTemperature<<" condition: "<<iCurrentWeatherInfo.iCurrentCondition;
 		
-		iCurrentTemperature->setText(iCurrentWeatherInfo.iCurrentTemperature,KCurrentTemperatureFont);
-		iCurrentCondition->setText(iCurrentWeatherInfo.iCurrentCondition,KCurrentConditionFont);
+		iCurrentTemperature->updateText(iCurrentWeatherInfo.iCurrentTemperature);
+		iCurrentCondition->updateText(iCurrentWeatherInfo.iCurrentCondition);
 		
 		iVerticalViewLayout->updateGeometry();
 		
@@ -248,29 +238,8 @@ qDebug()<<aResponse.iStatusCode;
 
 	}
 	
-	/*iHorizontalCurrentTempLayout->updateGeometry();
-	iVerticalViewLayout->updateGeometry();
-	this->adjustSize();*/
-	
-	/*qDebug()<<"iCurrentLocation "<<" w:"<<iCurrentLocation->rect().width()<<" h:"<<iCurrentLocation->rect().height();
-	qDebug()<<"iCurrentTemperature "<<" w:"<<iCurrentTemperature->rect().width()<<" h:"<<iCurrentTemperature->rect().height();
-	qDebug()<<"iCurrentCondition "<<" w:"<<iCurrentCondition->rect().width()<<" h:"<<iCurrentCondition->rect().height();*/
-	
-	/*this->adjustSize();
-	qDebug()<<"after adjustSize()"; 
-	qDebug()<<"iCurrentLocation "<<" w:"<<iCurrentLocation->rect().width()<<" h:"<<iCurrentLocation->rect().height();
-	qDebug()<<"iCurrentTemperature "<<" w:"<<iCurrentTemperature->rect().width()<<" h:"<<iCurrentTemperature->rect().height();
-	qDebug()<<"iCurrentCondition "<<" w:"<<iCurrentCondition->rect().width()<<" h:"<<iCurrentCondition->rect().height();*/
-	
-	/*iHorizontalCurrentTempLayout->updateGeometry();
-	
-	iVerticalCurrentTempContainer->updateGeometry();
-	
-	iVerticalViewLayout->updateGeometry();*/
-	
 	qDebug()<<"container window: w: "<<this->rect().width()<<"h: "<<this->rect().height();
 	
-	//adjustSize();
 qDebug()<<"WeatherGraphicsWindow::on_networkEngine_weatherRequestCompleted<-";	
 }
 

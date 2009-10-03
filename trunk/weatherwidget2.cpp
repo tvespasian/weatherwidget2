@@ -17,7 +17,9 @@ WeatherWidget2::WeatherWidget2(QWidget *parent)
     // add to main window layout
     ui.verticalLayout->addWidget(graphicsview);
     
-    graphicsview->show();
+    this->show();
+    //graphicsview->show();
+    
 }
 
 WeatherWidget2::~WeatherWidget2()

@@ -13,7 +13,7 @@
 
 const QString KSignalMapperObjectName("signalmapper");
 
-// This is a widget to hold the layout. So no paint is required
+// This is a widget to hold the layout. 
 //
 class WeatherGraphicsWindow:public QGraphicsWidget
 {
@@ -23,6 +23,11 @@ public:
 	WeatherGraphicsWindow(QObject* aParent=0);
 	~WeatherGraphicsWindow();
 	
+public:
+	void paint(QPainter *painter, 
+			   const QStyleOptionGraphicsItem *option,
+	           QWidget *widget = 0);
+
 private:
 	void createWeatherItems();
 	void startWeatherDataUpdate();

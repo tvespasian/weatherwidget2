@@ -26,12 +26,11 @@ const QString KDefaultStationCode("64712");
 const QString KDefaultCityName("Hyderabad");
 const QString KDefaultCountryName("India");
 
-const QFont KCurrentLocationFont("Arial",15);
+const QFont KCurrentLocationFont("Arial",20);
 const QFont KCurrentTemperatureFont("Arial",40);
 const QFont KLowHighTemperatureFont("Arial",12);
-const QFont KCurrentConditionFont("Arial",15);
-
-
+const QFont KCurrentConditionFont("Arial",17);
+const QFont KWindowFont("Arial narrow",170);
 
 WeatherGraphicsWindow::WeatherGraphicsWindow(QObject* aParent)
 {
@@ -84,7 +83,7 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	}
 
 	this->setPreferredWidth(qreal(400));
-	this->setPreferredHeight(qreal(200));
+	this->setPreferredHeight(qreal(220));
 	adjustSize();
 	
 	// Create signal mapper
@@ -92,13 +91,13 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	iSignalMapper->setObjectName(KSignalMapperObjectName);
 	qDebug()<<iSignalMapper->objectName();
 	
-	iVerticalViewLayout = new QGraphicsLinearLayout(Qt::Vertical,this);
+	iVerticalViewLayout = new QGraphicsLinearLayout(Qt::Vertical);
 
 	iVerticalCurrentTempContainer = new QGraphicsLinearLayout(Qt::Vertical,iVerticalViewLayout);
 	iHorizontalCurrentTempLayout = new QGraphicsLinearLayout(Qt::Horizontal,iVerticalViewLayout);
 		
 	// Location
-	iCurrentLocation = new WeatherGraphicsWidget(this);
+	iCurrentLocation = new WeatherGraphicsWidget();
 	iCurrentLocation->setText("Hyderabad,India",KCurrentLocationFont);
 	
 	// connect with signal mapper
@@ -123,14 +122,38 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	connect(iCurrentCondition, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
 	iSignalMapper->setMapping(iCurrentCondition,ECurrentCondition);
 
-	// Add to layouts
+	// Apply transforms
+	QTransform transform_location;
+	transform_location.rotate(7);
+	transform_location.translate(0,20);
 	
+	QTransform transform_tmp;
+	transform_tmp.rotate(12);
+	
+	QTransform transform_cond;
+	transform_cond.translate(0,70);
+	transform_cond.rotate(-6);
+	
+	iCurrentLocation->setTransform(transform_location);
+	iCurrentTemperature->setTransform(transform_tmp);
+	iCurrentCondition->setTransform(transform_cond);
+
+	// Apply colors
+	iCurrentLocation->setColor(QColor(Qt::blue));
+	iCurrentTemperature->setColor(QColor(Qt::cyan));
+	iCurrentCondition->setColor(QColor(Qt::yellow));
+	// Add to layouts
+	//iVerticalViewLayout->setSpacing(qreal(30));
 	iVerticalViewLayout->addItem(iCurrentLocation);
+	iVerticalViewLayout->setAlignment(iCurrentLocation,Qt::AlignCenter);
 	iVerticalViewLayout->addItem(iCurrentTemperature);
+	iVerticalViewLayout->setAlignment(iCurrentTemperature,Qt::AlignCenter);
 	iVerticalViewLayout->addItem(iCurrentCondition);
+	iVerticalViewLayout->setAlignment(iCurrentCondition,Qt::AlignCenter);
 	
 	setLayout(iVerticalViewLayout);
 	
+	this->updateGeometry();
 qDebug() << "WeatherGraphicsWindow::createWeatherItems()<-";	
 }
 
@@ -208,7 +231,7 @@ qDebug()<<aResponse.iStatusCode;
 		
 		// TODO : display list box for selection of multiple items
 		iCurrentLocationInfo = locationlist[0];
-		iCurrentLocation->updateText(iCurrentLocationInfo.iCityName + " " + iCurrentLocationInfo.iCountryName);
+		iCurrentLocation->updateText(iCurrentLocationInfo.iCityName + "," + iCurrentLocationInfo.iCountryName);
 		
 		iVerticalViewLayout->updateGeometry();
 		
@@ -241,6 +264,21 @@ qDebug()<<aResponse.iStatusCode;
 	qDebug()<<"container window: w: "<<this->rect().width()<<"h: "<<this->rect().height();
 	
 qDebug()<<"WeatherGraphicsWindow::on_networkEngine_weatherRequestCompleted<-";	
+}
+
+
+void WeatherGraphicsWindow::paint(QPainter *painter, 
+								  const QStyleOptionGraphicsItem *option,
+           						  QWidget *widget)
+{
+	painter->save();
+	
+	painter->setRenderHint(QPainter::Antialiasing);
+	painter->setFont(KWindowFont);
+	painter->setPen(QColor(Qt::lightGray));
+	painter->drawText(rect().toAlignedRect(),Qt::AlignCenter,this->iCurrentWeatherInfo.iCurrentTemperature);
+	
+	painter->restore();
 }
 
 // eof

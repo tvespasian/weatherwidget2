@@ -75,15 +75,21 @@ int main(int argc, char *argv[])
     WeatherGraphicsWindow* weatherwindow = new WeatherGraphicsWindow(&a);
     
     QGraphicsScene scene;
+    
 	scene.addItem(weatherwindow);
 	    
     QGraphicsView graphicsview;
     graphicsview.setScene(&scene);
     graphicsview.setWindowTitle("WeatherWidget 2");
-    graphicsview.setWindowOpacity(0.8);
+    graphicsview.setWindowOpacity(0.9);
     	
-   // graphicsview.setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
-
+    //graphicsview.setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+    
+    graphicsview.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    graphicsview.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    
+    graphicsview.setBackgroundBrush(QBrush(QColor(Qt::gray)));
+    graphicsview.resize(400,300);
     graphicsview.show();
     
 #else if    

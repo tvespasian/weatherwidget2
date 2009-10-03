@@ -23,6 +23,7 @@ public:
 				 QFont aFont = QFont(KDefualtFont,KDefaultFontSize),
 				 int aAlignment = Qt::AlignCenter);
 	void setFont(QFont aFont);
+	void setColor(QColor aColor){iColor = aColor;}
 	
 	void setAlignment(int aAlignment)
 	{
@@ -47,6 +48,7 @@ private:
 	QGraphicsProxyWidget* iProxyWidget;
 	QString iTextToDisplay;
 	QFont iFont;
+	QColor iColor;
 	int iAlignment;
 	int iWidth;
 	int iHeight;

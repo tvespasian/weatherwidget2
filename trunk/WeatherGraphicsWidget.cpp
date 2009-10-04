@@ -86,6 +86,7 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	painter->setOpacity(qreal(1.0));
 	painter->drawText(newrect,iAlignment,iTextToDisplay);
 	painter->restore();
+	
 }
 
 void WeatherGraphicsWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)

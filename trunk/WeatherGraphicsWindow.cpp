@@ -36,15 +36,23 @@ WeatherGraphicsWindow::WeatherGraphicsWindow(QObject* aParent)
 {
 qDebug() << "WeatherGraphicsWindow::WeatherGraphicsWindow->";
 
+	// Create signal mapper
+	iSignalMapper = new QSignalMapper(this);
+	iSignalMapper->setObjectName(KSignalMapperObjectName);
+	qDebug()<<"Signalmapper obj name:"<<iSignalMapper->objectName();
+
 	iNetworkEngine = new WeatherWidgetNetworkEngine(this);
 	qDebug() << "WeatherGraphicsWindow::WeatherGraphicsWindow created network engine";
-
-	// Auto connect signals and slots
-	QMetaObject::connectSlotsByName(this);
 	connect(iNetworkEngine,SIGNAL(weatherRequestCompleted(const WeatherResponseT&,RequestMethodT,bool)),
 			this,SLOT(on_networkEngine_weatherRequestCompleted(const WeatherResponseT&,RequestMethodT,bool)));
+
+	iSelectLocation = new SelectLocation;
 	
 	createWeatherItems();
+	
+	// Auto connect signals and slots
+	QMetaObject::connectSlotsByName(this);
+
 	startWeatherDataUpdate();
 	setOwnedByLayout(false);
 	
@@ -85,11 +93,6 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	this->setPreferredWidth(qreal(400));
 	this->setPreferredHeight(qreal(220));
 	adjustSize();
-	
-	// Create signal mapper
-	iSignalMapper = new QSignalMapper(this);
-	iSignalMapper->setObjectName(KSignalMapperObjectName);
-	qDebug()<<iSignalMapper->objectName();
 	
 	iVerticalViewLayout = new QGraphicsLinearLayout(Qt::Vertical);
 
@@ -161,47 +164,51 @@ void WeatherGraphicsWindow::startWeatherDataUpdate()
 {
 qDebug()<<"WeatherGraphicsWindow::fetchWeatherData->";
 
-
 	// This will start weather data update loop
 	iNetworkEngine->updateWeatherInfo(KDefaultCityName,KDefaultCountryName,ESearchLocationFromString);
-	
 
 qDebug()<<"WeatherGraphicsWindow::fetchWeatherData<-";
 }
 
 void WeatherGraphicsWindow::on_signalmapper_mapped(int aItemId)
 {
+qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped->";
 	switch(aItemId)
 	{
 		case ECurrentLocation: 
 		{
-						
+			qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped ECurrentLocation";
+			iSelectLocation->show();
 		}
 		break;	
 			
 		case ECurrentTemperature:
 		{
-			
+			qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped ECurrentTemperature";
+			startWeatherDataUpdate();
 		}
 		break;
 		case ECurrentTemperatureUnits:
 		{
-			
+			qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped ECurrentTemperatureUnits";
+			startWeatherDataUpdate();
 		}
 		break;
 		case ECurrentCondition:
 		{
-			
+			qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped ECurrentCondition";
+			startWeatherDataUpdate();
 		}
 		break;
 		
 		default:
 		{
-			
+			qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped default";
+			startWeatherDataUpdate();
 		}
 		break;
 	}
-	
+qDebug()<<"WeatherGraphicsWindow::on_signalmapper_mapped<-";	
 }
 
 void WeatherGraphicsWindow::on_networkEngine_weatherRequestCompleted(const WeatherResponseT& aResponse,

@@ -4,7 +4,12 @@
 #include <QtCore>
 
 /************** XML ***************/
+const QString KElementRainToday("rain-today");
 const QString KElementTemp("temp");
+const QString KElementTempHigh("temp-high");
+const QString KElementTempLow("temp-low");
+const QString KElementAvgWindSpeed("wind-speed-avg");
+const QString KElementAvgWindDirection("wind-direction-avg");
 const QString KElementCurrentCondition("current-condition");
 const QString KElementStation("station");
 const QString KElementLocation("location");

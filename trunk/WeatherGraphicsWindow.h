@@ -10,6 +10,7 @@
 #include "WeatherGraphicsWidget.h"
 #include "WeatherWidgetNetworkEngine.h"
 #include "WeatherWidgetXMLEngine.h"
+#include "SelectLocation.h"
 
 const QString KSignalMapperObjectName("signalmapper");
 
@@ -45,6 +46,8 @@ private:
 	WeatherWidgetNetworkEngine* iNetworkEngine;
 	LocationInfoT iCurrentLocationInfo;
 	WeatherInfoT iCurrentWeatherInfo;
+	
+	SelectLocation* iSelectLocation;
 private:
 	
 	// This is the high level layout for the view

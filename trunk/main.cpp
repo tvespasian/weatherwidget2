@@ -3,7 +3,7 @@
 #include <QApplication>
 
 // Comment this when no debug log is required
-#define QT_NO_DEBUG_OUTPUT
+//#define QT_NO_DEBUG_OUTPUT
 
 #ifndef QT_NO_DEBUG_OUTPUT
 
@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
     graphicsview.setBackgroundBrush(QBrush(QColor(Qt::gray)));
     graphicsview.resize(400,300);
     graphicsview.show();
+    graphicsview.update();
     
 #else if    
     WeatherWidget2 weatherwidget;

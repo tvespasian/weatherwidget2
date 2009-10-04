@@ -6,17 +6,20 @@ QT += core \
     xmlpatterns \
     network \
     webkit
-HEADERS += WeatherWidgetXMLEngine.h \
+HEADERS += SelectLocation.h \
+    WeatherWidgetXMLEngine.h \
     WeatherWidgetNetworkEngine.h \
     WeatherGraphicsWidget.h \
     WeatherGraphicsWindow.h \
     weatherwidget2.h
-SOURCES += WeatherWidgetXMLEngine.cpp \
+SOURCES += SelectLocation.cpp \
+    WeatherWidgetXMLEngine.cpp \
     WeatherWidgetNetworkEngine.cpp \
     WeatherGraphicsWidget.cpp \
     WeatherGraphicsWindow.cpp \
     main.cpp \
     weatherwidget2.cpp
-FORMS += weatherwidget2.ui
+FORMS += SelectLocation.ui \
+    weatherwidget2.ui
 RESOURCES += 
 //DEFINES += QT_NO_DEBUG_OUTPUT

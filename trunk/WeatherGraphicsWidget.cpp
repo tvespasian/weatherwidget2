@@ -60,17 +60,7 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	painter->save();
 	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setFont(iFont);
-	
-	QPointF center = rect().center();
 
-	this->resize(2*iWidth,2*iHeight);
-
-	QRectF newrect = this->rect();
-	newrect.moveCenter(center);
-	
-	this->setGeometry(newrect);
-	this->updateGeometry();
-	
 	qDebug()<<" from rect: "<<iTextToDisplay<<" w:"<<rect().toAlignedRect().width()<<" h:"<<rect().toAlignedRect().height();
 	
 	//painter->setPen(QColor(Qt::red));
@@ -80,11 +70,30 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	
 	painter->setPen(iColor);
 	painter->setBrush(QBrush(iColor));
+	
+	// Do not resize the bounding rect of text. 
+	// This happens to alter the mouse click event due to change in geometry 
+	// Just resize and center the funky bar
+	
+	// TODO: try to move this code to calculatePreferredGeometry
+	// create rect for funky bar
+	//
+	QRectF funkyrect = this->rect();
+	QPointF originalcenter = rect().center();
+	
+	// resize to required size
+	funkyrect.setHeight(2*iHeight);
+	funkyrect.setWidth(2*iWidth);
+	
+	// now move the resized rect to original center of paint area
+	funkyrect.moveCenter(originalcenter);
+	
+	// draw funky rect
 	painter->drawRect(newrect);
 	
 	painter->setPen(QColor(Qt::black));
 	painter->setOpacity(qreal(1.0));
-	painter->drawText(newrect,iAlignment,iTextToDisplay);
+	painter->drawText(rect().toAlignedRect(),iAlignment,iTextToDisplay);
 	painter->restore();
 	
 }

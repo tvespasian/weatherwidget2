@@ -2,8 +2,8 @@
 #include <QtGui>
 #include <QApplication>
 
-// Comment this when no debug log is required
-//#define QT_NO_DEBUG_OUTPUT
+// Remove comment when no debug log is required
+#define QT_NO_DEBUG_OUTPUT
 
 #ifndef QT_NO_DEBUG_OUTPUT
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     graphicsview.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     
     graphicsview.setBackgroundBrush(QBrush(QColor(Qt::gray)));
-    graphicsview.resize(400,300);
+    graphicsview.resize(240,320);
     graphicsview.show();
     graphicsview.update();
     

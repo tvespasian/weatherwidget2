@@ -89,7 +89,7 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	funkyrect.moveCenter(originalcenter);
 	
 	// draw funky rect
-	painter->drawRect(newrect);
+	painter->drawRect(funkyrect);
 	
 	painter->setPen(QColor(Qt::black));
 	painter->setOpacity(qreal(1.0));

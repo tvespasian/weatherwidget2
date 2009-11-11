@@ -3,7 +3,6 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_weatherwidget2.h"
-#include "WeatherGraphicsWindow.h"
 
 class WeatherWidget2 : public QMainWindow
 {
@@ -13,9 +12,7 @@ public:
     WeatherWidget2(QWidget *parent = 0);
     ~WeatherWidget2();
 
-private:
-	WeatherGraphicsWindow* iWeatherGraphicsWindow;
-private:
+public:
     Ui::WeatherWidget2Class ui;
 };
 

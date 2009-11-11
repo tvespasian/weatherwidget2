@@ -68,6 +68,12 @@ private:
 	// Current Temperature
 	WeatherGraphicsWidget* iCurrentTemperature;
 	
+	// Low 
+	WeatherGraphicsWidget* iCurrentTemperatureLow;
+	
+	// High
+	WeatherGraphicsWidget* iCurrentTemperatureHigh;
+	
 	// Celcius or F
 	WeatherGraphicsWidget* iCurrentTemperatureUnits;
 	

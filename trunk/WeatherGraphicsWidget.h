@@ -5,7 +5,9 @@
 #include <QGraphicsWidget>
 
 const QString KDefualtFont("Arial");
-const int KDefaultFontSize(15);
+const int KDefaultFontSize(12);
+const qreal KToppestZOrder(1.0);
+const qreal KLowestZOrder(0.5);
 
 class QGraphicsProxyWidget;
 class WeatherGraphicsWidget:public QGraphicsWidget

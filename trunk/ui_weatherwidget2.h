@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'weatherwidget2.ui'
 **
-** Created: Sun Oct 4 23:04:51 2009
+** Created: Sat Oct 17 21:42:03 2009
 **      by: Qt User Interface Compiler version 4.5.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

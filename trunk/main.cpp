@@ -1,4 +1,5 @@
 #include "weatherwidget2.h"
+#include "WeatherGraphicsWindow.h"
 #include <QtGui>
 #include <QApplication>
 
@@ -79,19 +80,31 @@ int main(int argc, char *argv[])
 	scene.addItem(weatherwindow);
 	    
     QGraphicsView graphicsview;
+    graphicsview.setVisible(false);
     graphicsview.setScene(&scene);
     graphicsview.setWindowTitle("WeatherWidget 2");
     graphicsview.setWindowOpacity(0.9);
-    	
-    //graphicsview.setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     
-    graphicsview.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    graphicsview.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // This is to get transulent effect
+    //graphicsview.setWindowFlags(Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+    //graphicsview.setAttribute(Qt::WA_TranslucentBackground,true);
+    //graphicsview.setAttribute(Qt::WA_NoSystemBackground,true);
+    
+    //graphicsview.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //graphicsview.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    
+ /* WeatherWidget2 weatherwidget;
+    weatherwidget.ui.verticalLayout->addWidget(&graphicsview);
+    weatherwidget.show();*/
     
     graphicsview.setBackgroundBrush(QBrush(QColor(Qt::gray)));
-    graphicsview.resize(240,320);
+    graphicsview.setMaximumHeight(320);
+    graphicsview.setMinimumWidth(240);
+    
     graphicsview.show();
     graphicsview.update();
+    
+    
     
 #else if    
     WeatherWidget2 weatherwidget;

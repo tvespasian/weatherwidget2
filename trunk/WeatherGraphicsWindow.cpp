@@ -7,6 +7,9 @@
 
 #define QT_NO_DEBUG
 
+//#define _ONE_LAYOUT
+//#define _APPLY_TRANSFORM
+
 // Item Ids
 typedef enum 
 {
@@ -26,10 +29,10 @@ const QString KDefaultStationCode("64712");
 const QString KDefaultCityName("Hyderabad");
 const QString KDefaultCountryName("India");
 
-const QFont KCurrentLocationFont("Arial",20);
-const QFont KCurrentTemperatureFont("Arial",40);
-const QFont KLowHighTemperatureFont("Arial",12);
-const QFont KCurrentConditionFont("Arial",17);
+const QFont KCurrentLocationFont("Arial",16);
+const QFont KCurrentTemperatureFont("Arial",11);
+const QFont KLowHighTemperatureFont("Arial",5);
+const QFont KCurrentConditionFont("Arial",14);
 const QFont KWindowFont("Arial narrow",170);
 
 WeatherGraphicsWindow::WeatherGraphicsWindow(QObject* aParent)
@@ -47,15 +50,19 @@ qDebug() << "WeatherGraphicsWindow::WeatherGraphicsWindow->";
 			this,SLOT(on_networkEngine_weatherRequestCompleted(const WeatherResponseT&,RequestMethodT,bool)));
 
 	iSelectLocation = new SelectLocation;
-	
-	createWeatherItems();
+
+	// This is to get transulent effect
+	//setWindowFlags(Qt::FramelessWindowHint);
+    //setAttribute(Qt::WA_TranslucentBackground,true);
+   
+ 	createWeatherItems();
 	
 	// Auto connect signals and slots
 	QMetaObject::connectSlotsByName(this);
 
 	startWeatherDataUpdate();
 	setOwnedByLayout(false);
-	
+
 qDebug() << "WeatherGraphicsWindow::WeatherGraphicsWindow<-";
 }
 
@@ -90,18 +97,25 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 		qDebug() << list[i].toString();
 	}
 
-	this->setPreferredWidth(qreal(400));
-	this->setPreferredHeight(qreal(220));
+	// Make sure this is always in the size of platform we are targetting
+	this->setPreferredWidth(qreal(240));
+	this->setPreferredHeight(qreal(320));
 	adjustSize();
 	
 	iVerticalViewLayout = new QGraphicsLinearLayout(Qt::Vertical);
-
+	iVerticalViewLayout->setPreferredSize(270,340);
+	
 	iVerticalCurrentTempContainer = new QGraphicsLinearLayout(Qt::Vertical,iVerticalViewLayout);
+	
+	iVerticalCurrentTempContainer->setMaximumHeight(35);
 	iHorizontalCurrentTempLayout = new QGraphicsLinearLayout(Qt::Horizontal,iVerticalViewLayout);
-		
+	iHorizontalCurrentTempLayout->setMaximumHeight(35);
+	iHorizontalCurrentTempLayout->setPreferredWidth(240);
+	
 	// Location
 	iCurrentLocation = new WeatherGraphicsWidget();
 	iCurrentLocation->setText("Hyderabad,India",KCurrentLocationFont);
+	iCurrentLocation->setZValue(KToppestZOrder);
 	
 	// connect with signal mapper
 	connect(iCurrentLocation, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
@@ -110,43 +124,31 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	
 	iCurrentTemperature = new WeatherGraphicsWidget(this);
 	iCurrentTemperature->setText("24.7",KCurrentTemperatureFont);
+	iCurrentTemperature->setZValue(KToppestZOrder);
 	//iCurrentTemperature->setAlignment(Qt::AlignRight);
 	connect(iCurrentTemperature, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
 	iSignalMapper->setMapping(iCurrentTemperature,ECurrentTemperature);
 	
-	/*iCurrentTemperatureUnits = new WeatherGraphicsWidget(this);
+	iCurrentTemperatureUnits = new WeatherGraphicsWidget(iCurrentTemperature);
 	iCurrentTemperatureUnits->setText("C");
-	iCurrentTemperatureUnits->setAlignment(Qt::AlignLeft);
+	//iCurrentTemperatureUnits->setAlignment(Qt::AlignRight);
 	connect(iCurrentTemperatureUnits, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
-	iSignalMapper->setMapping(iCurrentTemperatureUnits,ECurrentTemperatureUnits);*/
+	iSignalMapper->setMapping(iCurrentTemperatureUnits,ECurrentTemperatureUnits);
+	
+	iCurrentTemperatureLow = new WeatherGraphicsWidget(this);
+	iCurrentTemperatureLow->setText("low 14.4");
+	
+	iCurrentTemperatureHigh = new WeatherGraphicsWidget(this);
+	iCurrentTemperatureHigh->setText("high 29.9");
 	
 	iCurrentCondition = new WeatherGraphicsWidget(this);
 	iCurrentCondition->setText("this is a test condition",KCurrentConditionFont);
 	connect(iCurrentCondition, SIGNAL(itemExecuted()), iSignalMapper, SLOT(map()));
 	iSignalMapper->setMapping(iCurrentCondition,ECurrentCondition);
 
-	// Apply transforms
-	QTransform transform_location;
-	transform_location.rotate(7);
-	transform_location.translate(0,20);
+#ifdef _ONE_LAYOUT
 	
-	QTransform transform_tmp;
-	transform_tmp.rotate(12);
-	
-	QTransform transform_cond;
-	transform_cond.translate(0,70);
-	transform_cond.rotate(-6);
-	
-	iCurrentLocation->setTransform(transform_location);
-	iCurrentTemperature->setTransform(transform_tmp);
-	iCurrentCondition->setTransform(transform_cond);
-
-	// Apply colors
-	iCurrentLocation->setColor(QColor(Qt::blue));
-	iCurrentTemperature->setColor(QColor(Qt::cyan));
-	iCurrentCondition->setColor(QColor(Qt::yellow));
-	// Add to layouts
-	//iVerticalViewLayout->setSpacing(qreal(30));
+	iCurrentLocation->setZValue(KToppestZOrder);
 	iVerticalViewLayout->addItem(iCurrentLocation);
 	iVerticalViewLayout->setAlignment(iCurrentLocation,Qt::AlignCenter);
 	iVerticalViewLayout->addItem(iCurrentTemperature);
@@ -154,9 +156,25 @@ qDebug() << "WeatherGraphicsWindow::createWeatherItems()->";
 	iVerticalViewLayout->addItem(iCurrentCondition);
 	iVerticalViewLayout->setAlignment(iCurrentCondition,Qt::AlignCenter);
 	
-	setLayout(iVerticalViewLayout);
+#else if
 	
-	this->updateGeometry();
+	iVerticalViewLayout->addItem(iCurrentLocation);
+
+	// prepare current temp horizontal layout
+	iHorizontalCurrentTempLayout->addItem(iCurrentTemperature);
+	iHorizontalCurrentTempLayout->setAlignment(iCurrentTemperature,Qt::AlignCenter);
+	iVerticalCurrentTempContainer->addItem(iCurrentTemperatureLow);
+	iVerticalCurrentTempContainer->addItem(iCurrentTemperatureHigh);
+	iHorizontalCurrentTempLayout->addItem(iVerticalCurrentTempContainer);
+	
+	iVerticalViewLayout->addItem(iHorizontalCurrentTempLayout);
+	iVerticalViewLayout->setAlignment(iHorizontalCurrentTempLayout,Qt::AlignCenter);
+	iVerticalViewLayout->addItem(iCurrentCondition);
+	
+#endif
+	
+	setLayout(iVerticalViewLayout);
+	updateGeometry();
 qDebug() << "WeatherGraphicsWindow::createWeatherItems()<-";	
 }
 
@@ -279,12 +297,10 @@ void WeatherGraphicsWindow::paint(QPainter *painter,
            						  QWidget *widget)
 {
 	painter->save();
-	
-	painter->setRenderHint(QPainter::Antialiasing);
+/*	painter->setRenderHint(QPainter::Antialiasing);
 	painter->setFont(KWindowFont);
 	painter->setPen(QColor(Qt::lightGray));
-	painter->drawText(rect().toAlignedRect(),Qt::AlignCenter,this->iCurrentWeatherInfo.iCurrentTemperature);
-	
+	painter->drawText(rect().toAlignedRect(),Qt::AlignCenter,this->iCurrentWeatherInfo.iCurrentTemperature);*/
 	painter->restore();
 }
 

@@ -2,10 +2,12 @@
 #include "WeatherGraphicsWidget.h"
 #include <QGraphicsProxyWidget>
 
+//#define _SHOW_FUNKY_BAR
+
 WeatherGraphicsWidget::WeatherGraphicsWidget(QGraphicsWidget* aParent)
 {
 	iProxyWidget = new QGraphicsProxyWidget(this);
-	
+	setZValue(KLowestZOrder);
 	// Let this item be deleted by QGraphicsItem 
 	setOwnedByLayout(false);
 }
@@ -53,7 +55,6 @@ void WeatherGraphicsWidget::setEmbedWidget(QWidget* aEmbedWidget)
 void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
            						  QWidget *widget)
 {
-	//iProxyWidget->show();
 	calculatePreferredGeometry(iTextToDisplay,iFont);
 	qDebug()<<iTextToDisplay<<" w:"<<this->rect().width()<<" h:"<<this->rect().height();
 
@@ -63,14 +64,7 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 
 	qDebug()<<" from rect: "<<iTextToDisplay<<" w:"<<rect().toAlignedRect().width()<<" h:"<<rect().toAlignedRect().height();
 	
-	//painter->setPen(QColor(Qt::red));
-	//painter->drawRect(newrect);
-	
-	painter->setOpacity(qreal(0.5));
-	
-	painter->setPen(iColor);
-	painter->setBrush(QBrush(iColor));
-	
+#ifdef _SHOW_FUNKY_BAR	
 	// Do not resize the bounding rect of text. 
 	// This happens to alter the mouse click event due to change in geometry 
 	// Just resize and center the funky bar
@@ -90,9 +84,9 @@ void WeatherGraphicsWidget::paint(QPainter *painter, const QStyleOptionGraphicsI
 	
 	// draw funky rect
 	painter->drawRect(funkyrect);
+#endif
 	
 	painter->setPen(QColor(Qt::black));
-	painter->setOpacity(qreal(1.0));
 	painter->drawText(rect().toAlignedRect(),iAlignment,iTextToDisplay);
 	painter->restore();
 	

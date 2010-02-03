@@ -1,0 +1,83 @@
+<images>
+<version>1</version>
+	
+	<!-- sunny --> 
+	<image wbimage = "000,007,017,031">
+		<layers>1</layers>
+		<mappedimage dayimage="true">sun.png</mappedimage>
+	</image>
+
+	<!-- very sunny -->
+	<image wbimage = "000,007,017,031,065">
+		<layers>1</layers>
+		<mappedimage dayimage="true">hotsun.png</mappedimage>
+	</image>
+
+	<!-- sun with clouds --> 
+	<image wbimage = "002,003,004,023,024,026,033,064,066,067,068,075">
+		<layers>2</layers>
+		<mappedimage dayimage="true">sun.png</mappedimage>
+		<mappedimage>clouds.png</mappedimage>
+	</image>
+
+	<!-- only clouds --> 
+	<image wbimage = "001,013,016,034,035,071,072,073">
+		<layers>1</layers>
+		<mappedimage>clouds.png</mappedimage>
+	</image>
+
+	<!--only rain --> 
+	<image wbimage = "005,014,015,020,021,025,028,036,042,045,046,048,049,058,059,060,061,063,081,082,083,087,088,089,090,091,092,099,100,101,114,115,116,120,121,122,123,124,125,132,133,134,135,136,137,139,141,142,150,152,153,156,157,162,163,165,166,167,168,170,171,173,174">
+		<layers>2</layers>
+		<mappedimage>rain.png</mappedimage>
+		<mappedimage>umbrella.png</mappedimage>
+	</image>
+
+	<!--rain with sun--> 
+	<image wbimage = "038,039,041,052,108,109,110,148">
+		<layers>3</layers>
+		<mappedimage dayimage="true">sun.png</mappedimage>
+		<mappedimage>rain.png</mappedimage>
+		<mappedimage>umbrella.png</mappedimage>
+	</image>
+	
+	<!--rain with thunders--> 
+	<image wbimage = "006,018,030,053,093,094,095,105,106,107,143,147">
+		<layers>2</layers>
+		<mappedimage>thunder.png</mappedimage>
+		<mappedimage>umbrella.png</mappedimage>
+	</image>
+	
+	<!-- only snow -->	
+	<image wbimage = "008,011,012,027,029,032,043,044,054,055,056,057,062,096,097,098,102,103,104,117,118,119,126,127,128,129,130,131,138,145,146,151,154,155,160,161,164,169,172,175,176">
+		<layers>1</layers>
+		<mappedimage>snow.png</mappedimage>
+	</image>
+	
+	<!-- snow and sun-->	
+	<image wbimage = "009,019,040,078,079,080,084,085,086,111,112,113,140,149">
+		<layers>2</layers>
+		<mappedimage dayimage="true">sun.png</mappedimage>
+		<mappedimage>snow.png</mappedimage>
+	</image>
+	
+	<!-- windy -->
+	<image wbimage = "050,158">
+		<layers>2</layers>
+		<mappedimage dayimage="true">sun.png</mappedimage>
+		<mappedimage>windy.png</mappedimage>
+	</image>
+	
+	<!-- fog -->
+	<image wbimage = "051,159">
+		<layers>1</layers>
+		<mappedimage>fog.png</mappedimage>
+	</image>
+	
+	<!-- very cold-->
+	<image wbimage = "069,074">
+		<layers>1</layers>
+		<mappedimage>verycold.png</mappedimage>
+	</image>
+	
+</images>

@@ -179,6 +179,7 @@ const QString KSignalMapperObjectName("signalmapper");
 const QString KMappedImagesRoot(":/resources/images/mappedimages/");
 const QString KMoonphasesImagesRoot(":/resources/images/moonphases/");
 const QString KBackgroundImagesRoot(":/resources/images/backgrounds/");
+const QString KImageMappingXMLPath(":/resources/imagemapping.xml");
 
 const QString DefaultFontName("Arial");
 const int KHighestZValue(4);

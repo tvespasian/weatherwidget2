@@ -49,5 +49,6 @@
         <file>images/backgrounds/brushedmetal.jpg</file>
         <file>images/appicon.png</file>
         <file>images/buttons/maps.png</file>
+        <file>imagemapping.xml</file>
     </qresource>
 </RCC>

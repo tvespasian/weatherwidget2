@@ -3,9 +3,7 @@ TARGET = WeatherWidget2
 QT += core \
     gui \
     xml \
-    xmlpatterns \
-    network \
-    webkit
+    network 
 HEADERS += inc/GraphicsWidgetItem.h \
     inc/SelectLocation.h \
     inc/Settings.h \

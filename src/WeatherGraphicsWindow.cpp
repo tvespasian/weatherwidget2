@@ -59,8 +59,6 @@ const QString KDefaultCityName("Hyderabad");
 const QString KDefaultCountryName("India");
 const int KUpdateIntervalInMs = 1200000; // 20 mins
 const int KLocalTimeUpdateIntervalInMs = 1000; // 1 minute
-const QString KImageMappingXMLPath("imagemapping.xml");
-
 const QString KGoogleMapsRequest("http://maps.google.com/maps?q=%1,%2+(%3)&iwloc=A&hl=en");
 
 WeatherGraphicsWindow::WeatherGraphicsWindow(QObject* aParent)

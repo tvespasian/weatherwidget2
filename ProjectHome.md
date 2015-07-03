@@ -1,0 +1,1 @@
+weather widget on Qt using weatherbug api
